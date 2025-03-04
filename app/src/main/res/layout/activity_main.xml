@@ -8,31 +8,28 @@
     android:layout_height="match_parent"
     tools:context="gr.ihu.ict.msc.junglebook.MainActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/photoRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/helloMessage" />
+
     <ImageView
         android:id="@+id/helloMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
         android:adjustViewBounds="true"
-        app:srcCompat="@drawable/giraffe"
-        app:layout_constraintBottom_toTopOf="@+id/okButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_weight="3.0"
         android:contentDescription="@string/image_caption"
-        />
-
-    <Button
-        android:id="@+id/okButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onClickHandler"
-        android:text="@string/ok_button"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/helloMessage" />
-
+        app:layout_constraintTop_toBottomOf="@+id/photoRecyclerView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:srcCompat="@drawable/giraffe" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
