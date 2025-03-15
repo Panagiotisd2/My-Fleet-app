@@ -1,6 +1,10 @@
 package gr.ihu.ict.msc.junglebook.model;
 
-public class Photo {
+import java.io.Serializable;
+
+
+
+public class Photo implements Serializable {
     private String name;
     private int id;
 

@@ -1,9 +1,9 @@
 package gr.ihu.ict.msc.junglebook;
 
 import android.os.Bundle;
-import android.view.View;
+import android.os.Parcelable;
+import android.util.Log;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Arrays;
 import java.util.List;
 
-import gr.ihu.ict.msc.junglebook.R;
 import gr.ihu.ict.msc.junglebook.model.Photo;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
             new Photo("Tiger", R.drawable.tiger,"Large cats"),
             new Photo("Zebra", R.drawable.zebra, "Horses with barcodes")
             );
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,27 +39,74 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        RecyclerView recyclerView = findViewById(R.id.photoRecyclerView);
+        recyclerView = findViewById(R.id.photoRecyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
+
         recyclerView.setHasFixedSize(true);
         PhotoRecyclerAdapter photoRecyclerAdapter = new PhotoRecyclerAdapter(photoList,
                 findViewById(R.id.helloMessage));
         recyclerView.setAdapter(photoRecyclerAdapter);
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        if (savedInstanceState!=null) {
+            Log.d("MainActivity","Hey I am recovering from destroy! I have saved info here");
+            Parcelable savedReviewerState = savedInstanceState.getParcelable("recycler_state");
+            PhotoRecyclerAdapter adapter = (PhotoRecyclerAdapter)recyclerView.getAdapter();
+            int lastClickedPosition = savedInstanceState.getInt("last_position_clicked");
+            recyclerView.getLayoutManager().onRestoreInstanceState(savedReviewerState);
+            adapter.setLastClickedPosition(lastClickedPosition);
+
+        } else {
+            recyclerView.scrollToPosition(0);
+        }
+        Log.d("MainActivity","I am onCreate");
     }
 
-     public void onClickHandler(View view) {
-           ImageView animalImage =  findViewById(R.id.helloMessage);
-           if (animalImage.getVisibility() == View.VISIBLE) {
-               animalImage.setVisibility(View.INVISIBLE);
-           } else {
-               animalImage.setVisibility(View.VISIBLE);
-           }
-     }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("MainActivity","I am onStart");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("MainActivity","I am onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("MainActivity","I am onDestroy");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("MainActivity","I am onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("MainActivity","I am onPause");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d("MainActivity", "I am onSaveInstanceState");
+        if (recyclerView !=null ){
+            Parcelable my_layout_state = recyclerView.getLayoutManager().onSaveInstanceState();
+            PhotoRecyclerAdapter adapter = (PhotoRecyclerAdapter)recyclerView.getAdapter();
+            outState.putParcelable("recycler_state", my_layout_state);
+            outState.putInt("last_position_clicked",adapter.getLastClickedPosition());
+        }
+    }
 }
