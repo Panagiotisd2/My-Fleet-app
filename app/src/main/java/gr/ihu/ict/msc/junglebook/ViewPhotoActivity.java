@@ -1,6 +1,8 @@
 package gr.ihu.ict.msc.junglebook;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,11 +26,13 @@ public class ViewPhotoActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent!=null) {
             Photo photo = (Photo) intent.getSerializableExtra("photo");
-            //
-            ImageView imageView = findViewById(R.id.imageView);
-            imageView.setImageResource(photo.getId());
-            TextView textView = findViewById(R.id.descriptionView);
-            textView.setText(photo.getDescription());
+            if (photo!=null) {
+                ImageView imageView = findViewById(R.id.imageView);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(photo.getData(), 0, photo.getData().length);
+                imageView.setImageBitmap(bitmap);
+                TextView textView = findViewById(R.id.descriptionView);
+                textView.setText(photo.getDescription());
+            }
         }
 
 

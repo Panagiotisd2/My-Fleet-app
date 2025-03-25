@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">JungleBook_2025</string>
     <string name="welcome_message">This is my first Android app</string>
-    <string name="ok_button">Εντάξει</string>
+    <string name="ok_button">OK</string>
     <string name="image_caption">A giraffe</string>
+    <string name="picture_of_an_animal">Picture of an animal</string>
+    <string name="title_of_entry">Title of entry</string>
+    <string name="some_description_of_the_animal">Some description of the animal</string>
+    <string name="some_animal_name">Some animal name</string>
+    <string name="some_description">Some description</string>
 </resources>

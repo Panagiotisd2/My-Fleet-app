@@ -2,6 +2,8 @@ package gr.ihu.ict.msc.junglebook;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Objects;
 
 import gr.ihu.ict.msc.junglebook.model.Photo;
 
@@ -47,14 +50,13 @@ public class PhotoRecyclerAdapter extends RecyclerView.Adapter<PhotoViewHolder> 
         textView.setText(photo.getName());
         TextView shortDescription = holder.shortDescription;
         shortDescription.setText(photo.getDescription().substring(0,4));
-        textView.setOnClickListener(view -> {
-            updateImageView(holder.getAdapterPosition(), photo);
-        });
+        textView.setOnClickListener(view -> updateImageView(Objects.requireNonNull(holder).getAdapterPosition(), photo));
     }
 
     private void updateImageView(int lastClickedPosition, Photo photo) {
         this.lastClickedPosition = lastClickedPosition;
-        imageView.setImageResource(photo.getId());
+        Bitmap bitmap = BitmapFactory.decodeByteArray(photo.getData(), 0, photo.getData().length);
+        imageView.setImageBitmap(bitmap);
         imageView.setOnClickListener(v-> {
             //Create a new activity showing info about the animal of the picture
             Intent intent = new Intent(context,ViewPhotoActivity.class);

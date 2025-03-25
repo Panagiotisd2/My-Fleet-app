@@ -6,25 +6,51 @@ import java.io.Serializable;
 
 public class Photo implements Serializable {
     private String name;
-    private int id;
+    private String type = "mammal";
+
+    private String filename;
+
+    private byte[] data;
 
     private String description;
-
-    public Photo(String name, int id, String description) {
-        this.name = name;
-        this.id = id;
-        this.description = description;
-    }
 
     public String getName() {
         return name;
     }
 
-    public int getId() {
-        return id;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
     }
 
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
