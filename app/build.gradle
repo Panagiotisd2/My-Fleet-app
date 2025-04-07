@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'gr.ihu.ict.msc.junglebook'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "gr.ihu.ict.msc.junglebook"

@@ -1,9 +1,11 @@
 package gr.ihu.ict.msc.junglebook;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gr.ihu.ict.msc.junglebook.client.PhotoApiClient;
@@ -17,6 +19,10 @@ public class MainViewModel extends ViewModel {
             this.photoList = new MutableLiveData<>();
             photoApiClient.getAllPhotos(photoList);
         }
+        return this.photoList;
+    }
+    public LiveData<List<Photo>> updatePhotos() {
+        photoApiClient.getAllPhotos(photoList);
         return this.photoList;
     }
 

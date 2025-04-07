@@ -1,10 +1,15 @@
 package gr.ihu.ict.msc.junglebook;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -16,9 +21,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Objects;
 
+import gr.ihu.ict.msc.junglebook.model.Photo;
+
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
+    private ActivityResultLauncher<Intent> activityLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +64,14 @@ public class MainActivity extends AppCompatActivity {
         } else {
             recyclerView.scrollToPosition(0);
         }
+        activityLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        model.updatePhotos();
+                    }
+                }
+        );
         Log.d("MainActivity","I am onCreate");
     }
 
@@ -101,5 +117,10 @@ public class MainActivity extends AppCompatActivity {
                 outState.putInt("last_position_clicked", adapter.getLastClickedPosition());
             }
         }
+    }
+
+    public void onCreateButton(View view) {
+        Intent intent = new Intent(this,CreateActivity.class);
+        activityLauncher.launch(intent);
     }
 }
