@@ -8,4 +8,9 @@
     <string name="some_description_of_the_animal">Some description of the animal</string>
     <string name="some_animal_name">Some animal name</string>
     <string name="some_description">Some description</string>
+    <string-array name="animal_categories">
+        <item>Mammal</item>
+        <item>Bird</item>
+        <item>Bug</item>
+    </string-array>
 </resources>

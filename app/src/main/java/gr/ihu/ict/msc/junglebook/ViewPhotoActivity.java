@@ -1,8 +1,12 @@
 package gr.ihu.ict.msc.junglebook;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,6 +36,22 @@ public class ViewPhotoActivity extends AppCompatActivity {
                 imageView.setImageBitmap(bitmap);
                 TextView textView = findViewById(R.id.descriptionView);
                 textView.setText(photo.getDescription());
+                TextView youtubeLink = findViewById(R.id.youtubeLink);
+                if (!photo.getUrl().isEmpty()) {
+                    youtubeLink.setText("Watch on YouTube");
+                    youtubeLink.setTextColor(Color.BLUE);
+                    youtubeLink.setPaintFlags(youtubeLink.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                    youtubeLink.setOnClickListener(v -> {
+                        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + photo.calculateVideoCode()));
+                        Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                                Uri.parse(photo.getUrl()));
+                        try {
+                            v.getContext().startActivity(appIntent);
+                        } catch (ActivityNotFoundException ex) {
+                            v.getContext().startActivity(webIntent);
+                        }
+                    });
+                }
             }
         }
 

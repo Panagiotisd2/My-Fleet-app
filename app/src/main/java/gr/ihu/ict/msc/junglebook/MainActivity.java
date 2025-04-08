@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private ActivityResultLauncher<Intent> activityLauncher;
 
+    private String filterSelection = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +41,15 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         recyclerView.setHasFixedSize(true);
+        if (savedInstanceState==null) {
+            Intent intent = getIntent();
+            filterSelection = intent.getStringExtra("filter");
+        } else {
+            filterSelection = savedInstanceState.getString("filter");
+        }
+
         MainViewModel model = new ViewModelProvider(this).get(MainViewModel.class);
-        model.getPhotos().observe(this, photoList-> {
+        model.getPhotos(filterSelection).observe(this, photoList-> {
             PhotoRecyclerAdapter photoRecyclerAdapter = new PhotoRecyclerAdapter(photoList,
                     findViewById(R.id.helloMessage));
             recyclerView.setAdapter(photoRecyclerAdapter);

@@ -1,7 +1,8 @@
 package gr.ihu.ict.msc.junglebook.model;
 
 import java.io.Serializable;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class Photo implements Serializable {
@@ -12,8 +13,9 @@ public class Photo implements Serializable {
 
     private byte[] data;
 
-    private String description;
+    private String description = "";
 
+    private String url = "";
     public String getName() {
         return name;
     }
@@ -52,5 +54,25 @@ public class Photo implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String calculateVideoCode() {
+        String pattern = "(?:https?://)?(?:www\\.)?(?:youtube\\.com/(?:watch\\?(?:.*&)?v=|embed/|v/|shorts/)|youtu\\.be/)([a-zA-Z0-9_-]{11})";
+        Pattern compiledPattern = Pattern.compile(pattern);
+        Matcher matcher = compiledPattern.matcher(url);
+
+        if (matcher.find()) {
+            return matcher.group(1); // The video ID
+        } else {
+            return ""; // No valid video ID found
+        }
     }
 }

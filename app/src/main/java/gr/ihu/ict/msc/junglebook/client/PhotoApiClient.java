@@ -3,6 +3,7 @@ package gr.ihu.ict.msc.junglebook.client;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -69,5 +70,26 @@ public class PhotoApiClient {
                 viewModel.FailedFromRest(throwable.getLocalizedMessage());
             }
         });
+    }
+    public MutableLiveData<List<Photo>> getFilteredPhotos(String filterSelection, MutableLiveData<List<Photo>> photoList) {
+
+        Call<List<Photo>> call = photoApi.findByType(filterSelection);
+
+        call.enqueue(new Callback<List<Photo>>() {
+            @Override
+            public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
+                if (response.body() != null) {
+                    photoList.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Photo>> call, Throwable t) {
+                Log.e("REST Client",
+                        "Tried to get all photos{}. Got back " + t.getLocalizedMessage());
+                photoList.postValue(Collections.emptyList());
+            }
+        });
+        return photoList;
     }
 }

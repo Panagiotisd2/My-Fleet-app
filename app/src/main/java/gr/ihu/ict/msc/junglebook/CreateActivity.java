@@ -35,6 +35,20 @@ public class CreateActivity extends AppCompatActivity {
                     imageView.setImageBitmap(imageBitmap);
                 }
             });
+
+    ActivityResultLauncher<Intent> photoCollectionResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    // There are no request codes
+                    if (result.getData()!=null) {
+                        Uri uri = result.getData().getData();
+                        ImageView imageView = findViewById(R.id.imageCreateView);
+                        imageView.setImageURI(uri);
+                    }
+
+                }
+            });
     private String type;
     private CreateViewModel model;
 
@@ -43,9 +57,6 @@ public class CreateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
 
-        if (savedInstanceState==null) {
-            Intent intent = getIntent();
-        }
         type = "mammal";
 
     }
@@ -65,6 +76,7 @@ public class CreateActivity extends AppCompatActivity {
                         getData().length);
                 imageView.setImageBitmap(bmp);
                 Toast.makeText(this, "Image got updated", Toast.LENGTH_SHORT).show();
+                this.finish();
             }
         });
         model.errorMessages().observe(this, x ->
@@ -98,13 +110,7 @@ public class CreateActivity extends AppCompatActivity {
         if (photo.getName().isEmpty() || photo.getData().length == 0) {
             Toast.makeText(this, "Please take a picture and give a name", Toast.LENGTH_SHORT).show();
         } else {
-            if (model!=null)
-                model.setPhoto(photo);
-            Intent resultIntent = new Intent();
-            setResult(Activity.RESULT_OK, resultIntent);
-            // This will finish teh activity even if the server responsed with error.
-            // It will be fixed in next lecture
-            this.finish();
+            model.setPhoto(photo);
         }
     }
     @Override
@@ -116,4 +122,11 @@ public class CreateActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
+    public void onViewGallery(View view) {
+        // Read from phone's album
+        Intent intent = new Intent(Intent.ACTION_PICK,
+              android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+           intent.setAction(Intent.ACTION_GET_CONTENT);
+         photoCollectionResultLauncher.launch(intent);
+    }
 }
