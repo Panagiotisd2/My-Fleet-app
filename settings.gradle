@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "JungleBook_2025"
+rootProject.name = "My Fleet"
 include ':app'
