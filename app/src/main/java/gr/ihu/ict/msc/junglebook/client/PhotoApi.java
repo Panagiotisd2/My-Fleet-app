@@ -12,10 +12,10 @@ import retrofit2.http.Path;
 
 public interface PhotoApi {
 
-    @GET("/photos")
+    @GET("/photos/")
     Call<List<Photo>> getAllPhotos();
 
-    @POST("/photos")
+    @POST("/photos/")
     Call<Photo> addPhoto(@Body Photo photo);
 
     @GET("/photos/byType/{type}")

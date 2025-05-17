@@ -21,7 +21,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class PhotoApiClient {
 
-    private static final String BASE_URL="http://10.0.2.2:9000";
+    private static final String BASE_URL="http://10.0.2.2:8000";
     private final PhotoApi photoApi;
 
     public PhotoApiClient() {

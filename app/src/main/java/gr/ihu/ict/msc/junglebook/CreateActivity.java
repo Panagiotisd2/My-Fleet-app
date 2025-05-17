@@ -103,7 +103,7 @@ public class CreateActivity extends AppCompatActivity {
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 
         photo.setData(BitmapUtil.bitmap2byteArray(bitmap));
-        photo.setType("Mammal");
+        photo.setType("commercial");
         photo.setDescription("no description yet");
         photo.setFilename(photo.getName() + ".jpeg");
 
